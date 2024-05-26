@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "nevzorov.sso.v1;ssov1";
+
+// Здесь мы разбиваем наш сервис на 3 составные части. Это удобно, тк
+// мы уменьшаем связность между ними и имеем возможность в будущем разделить их на
+// 3 полноценных сервиса
+service Auth {
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
+}
+
+message RegisterRequest {
+  string email = 1; // email of the user to register
+  string password = 2; // password of the user to register
+}
+
+message RegisterResponse {
+  int64 user_id = 1; // user id of the register user
+}
+
+message LoginRequest {
+  string email = 1; // email of the user to login
+  string password = 2; // password of the user to login
+  int64 app_id = 3; // Id of the app to login to. User register in one place and
+  // then he able to login in every service
+}
+
+message LoginResponse {
+  string token = 1; // Auth token to logged user
+}
+
+message IsAdminRequest {
+  int64 user_id = 1; // User id to validate
+}
+
+message IsAdminResponse {
+  bool is_admin = 1; // Indicates whether user_id is admin
+}
