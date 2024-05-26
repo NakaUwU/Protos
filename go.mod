@@ -1,3 +1,3 @@
-module ssov1
+module protos
 
 go 1.22
